@@ -76,7 +76,7 @@ function displayProducts(products) {
         productElement.className = 'product-item';
         productElement.innerHTML = `
             <div class="product-image-container">
-                <div class="product-image-slider" style="width: ${images.length * 100}%">
+                <div class="product-image-slider" style="width: ${images.length * 100}%;height: auto;">
                     ${images.map(img => `
                         <img src="${img}" alt="${basicInfo.title}" class="product-image">
                     `).join('')}
@@ -125,13 +125,53 @@ function displayProducts(products) {
         const slider = productElement.querySelector('.product-image-slider');
         const dots = productElement.querySelectorAll('.slider-dot');
         let currentSlide = 0;
+        let autoplayInterval;
+
+        // 创建 Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 在视口内，开始自动轮播
+                    startAutoplay();
+                } else {
+                    // 不在视口内，停止自动轮播
+                    stopAutoplay();
+                }
+            });
+        }, { threshold: [0.2, 0.4, 0.6, 0.8] });
+
+        // 观察当前商品元素
+        observer.observe(productElement);
+
+        function startAutoplay() {
+            if (!autoplayInterval && images.length > 1) {
+                autoplayInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % images.length;
+                    updateSlider();
+                }, 3000);
+            }
+        }
+
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+        }
 
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 currentSlide = index;
                 updateSlider();
+                // 点击切换后重置自动轮播计时器
+                stopAutoplay();
+                startAutoplay();
             });
         });
+
+        // 鼠标悬停时暂停自动轮播
+        productElement.addEventListener('mouseenter', stopAutoplay);
+        productElement.addEventListener('mouseleave', startAutoplay);
 
         function updateSlider() {
             slider.style.transform = `translateX(-${currentSlide * (100 / images.length)}%)`;
