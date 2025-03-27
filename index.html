@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品搜索</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="container">
+        <h1 class="search-title">拒绝大数据杀熟，做一个聪明的有钱人</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" value="女装" placeholder="请输入搜索关键词">
+            <button id="searchButton">搜索</button>
+        </div>
+        
+        <div class="view-toggle">
+            <button id="listView" class="active">列表视图</button>
+            <button id="gridView">网格视图</button>
+        </div>
+
+        <div id="productList" class="product-list list-view">
+            <!-- 商品将通过 JavaScript 动态添加 -->
+        </div>
+
+        <div class="pagination">
+            <button id="prevPage">上一页</button>
+            <span id="currentPage">1</span>
+            <button id="nextPage">下一页</button>
+        </div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="productDetail"></div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>
