@@ -89,28 +89,43 @@ function displayProducts(products) {
             </div>
             <div class="product-info">
                 <h3 class="product-title">${basicInfo.title}</h3>
+                <div class="category-info">
+                    <span class="category-tag">${basicInfo.category_name}</span>
+                </div>
                 <div class="product-price">
                     <span class="original-price">¥${priceInfo.reserve_price}</span>
                     <span class="discount-price">¥${priceInfo.zk_final_price}</span>
                     ${priceInfo.final_promotion_price ? `<span class="promotion-price">促销价: ¥${priceInfo.final_promotion_price}</span>` : ''}
                 </div>
+                <div class="sales-info">
+                    <span class="sales-item">年销量: ${basicInfo.annual_vol || 0}</span>
+                    <span class="sales-item">30天销量: ${basicInfo.volume || 0}</span>
+                </div>
                 <div class="product-meta">
-                    <div class="product-meta-item">
-                        <i class="icon-shop"></i>
-                        <span>${basicInfo.shop_title}</span>
+                    <div class="shop-info">
+                        <div class="shop-title"><i class="icon-shop"></i>${basicInfo.shop_title}</div>
+                        <div class="brand-name ${basicInfo.brand_name ? 'has-brand' : 'no-brand'}"><i class="icon-brand"></i>${basicInfo.brand_name || '无品牌'}</div>
                     </div>
                     <div class="product-meta-item">
                         <i class="icon-location"></i>
                         <span>${basicInfo.provcity}</span>
                     </div>
                     <div class="product-meta-item">
-                        <i class="icon-brand"></i>
-                        <span>${basicInfo.brand_name || '无品牌'}</span>
-                    </div>
-                    <div class="product-meta-item">
                         <i class="icon-shipping"></i>
-                        <span>${basicInfo.real_post_fee === '0.00' ? '包邮' : `运费:¥${basicInfo.real_post_fee}`}</span>
+                        <span>您当前地区运费：${basicInfo.real_post_fee === '0.00' ? '包邮' : `¥${basicInfo.real_post_fee}`}</span>
                     </div>
+                </div>
+                <div class="sales-info">
+                    <span class="sales-item ${basicInfo.annual_vol > 10000 ? 'high-sales' : 'low-sales'}">年销量: ${basicInfo.annual_vol || 0}</span>
+                    <span class="sales-item ${basicInfo.volume > 1000 ? 'high-sales' : 'low-sales'}">30天销量: ${basicInfo.volume || 0}</span>
+                </div>
+                <div class="promotion-info">
+                    ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
+                        `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
+                    ).join('') || ''}
+                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
+                        `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
+                    ).join('') || ''}
                 </div>
                 <div class="promotion-tags">
                     ${priceInfo.promotion_tag_list?.promotion_tag_map_data?.map(tag => 
@@ -131,16 +146,13 @@ function displayProducts(products) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // 在视口内，开始自动轮播
                     startAutoplay();
                 } else {
-                    // 不在视口内，停止自动轮播
                     stopAutoplay();
                 }
             });
         }, { threshold: [0.2, 0.4, 0.6, 0.8] });
 
-        // 观察当前商品元素
         observer.observe(productElement);
 
         function startAutoplay() {
@@ -163,13 +175,11 @@ function displayProducts(products) {
             dot.addEventListener('click', () => {
                 currentSlide = index;
                 updateSlider();
-                // 点击切换后重置自动轮播计时器
                 stopAutoplay();
                 startAutoplay();
             });
         });
 
-        // 鼠标悬停时暂停自动轮播
         productElement.addEventListener('mouseenter', stopAutoplay);
         productElement.addEventListener('mouseleave', startAutoplay);
 
@@ -198,6 +208,9 @@ function showProductDetail(product) {
             <img src="${basicInfo.pict_url}" alt="${basicInfo.title}" class="detail-image">
             <div class="detail-info">
                 <h2>${basicInfo.title}</h2>
+                <div class="category-info">
+                    <span class="category-tag">${basicInfo.category_name}</span>
+                </div>
                 <div class="detail-price">
                     <div class="price-item">原价: ¥${priceInfo.reserve_price}</div>
                     <div class="price-item">优惠价: ¥${priceInfo.zk_final_price}</div>
@@ -208,6 +221,21 @@ function showProductDetail(product) {
                     <div>品牌：${basicInfo.brand_name || '无品牌'}</div>
                     <div>发货地：${basicInfo.provcity}</div>
                     <div>运费：${basicInfo.real_post_fee === '0.00' ? '包邮' : `¥${basicInfo.real_post_fee}`}</div>
+                    <div>年销量：${basicInfo.annual_vol || 0}</div>
+                    <div>30天销量：${basicInfo.volume || 0}</div>
+                </div>
+                <div class="promotion-info">
+                    ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
+                        `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
+                    ).join('') || ''}
+                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
+                        `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
+                    ).join('') || ''}
+                </div>
+                <div class="promotion-tags">
+                    ${priceInfo.promotion_tag_list?.promotion_tag_map_data?.map(tag => 
+                        `<span class="tag">${tag.tag_name}</span>`
+                    ).join('') || ''}
                 </div>
                 <a href="${publishInfo.click_url}" target="_blank" class="buy-button">立即购买</a>
             </div>
