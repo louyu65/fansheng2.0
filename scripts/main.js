@@ -76,9 +76,9 @@ function displayProducts(products) {
         productElement.className = 'product-item';
         productElement.innerHTML = `
             <div class="product-image-container">
-                <div class="product-image-slider" style="width: ${images.length * 100}%;height: auto;">
+                <div class="product-image-slider" style="width: ${images.length * 100}%;height: auto;display: flex;">
                     ${images.map(img => `
-                        <img src="${img}" alt="${basicInfo.title}" class="product-image">
+                        <img src="${img}" alt="${basicInfo.title}" class="product-image" style="width: ${100 / images.length}%;flex: 0 0 ${100 / images.length}%;">
                     `).join('')}
                 </div>
                 <div class="slider-dots">
