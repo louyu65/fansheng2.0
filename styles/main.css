@@ -160,13 +160,15 @@
 }
 
 .product-title {
-    font-size: 1em;
-    line-height: 1.3;
-    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 4px;
     overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-height: 40px;
 }
 
 .product-subtitle {
@@ -286,6 +288,58 @@
     gap: 15px;
     padding: 10px;
     pointer-events: none;
+}
+
+.product-list.grid-view .product-item {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.product-list.grid-view .product-image-container {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-list.grid-view .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.product-list.grid-view .title-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .meta-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .promotion-section {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background: #fff;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.product-list.grid-view .buy-button {
+    width: 100%;
+    margin-top: 8px;
 }
 
 .product-list.grid-view .product-item {
@@ -870,13 +924,15 @@
 }
 
 .product-title {
-    font-size: 1em;
-    line-height: 1.3;
-    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 4px;
     overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-height: 40px;
 }
 
 .product-subtitle {
@@ -996,6 +1052,58 @@
     gap: 15px;
     padding: 10px;
     pointer-events: none;
+}
+
+.product-list.grid-view .product-item {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.product-list.grid-view .product-image-container {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-list.grid-view .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.product-list.grid-view .title-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .meta-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .promotion-section {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background: #fff;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.product-list.grid-view .buy-button {
+    width: 100%;
+    margin-top: 8px;
 }
 
 .product-list.grid-view .product-item {
@@ -1580,13 +1688,15 @@
 }
 
 .product-title {
-    font-size: 1em;
-    line-height: 1.3;
-    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 4px;
     overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-height: 40px;
 }
 
 .product-subtitle {
@@ -1706,6 +1816,58 @@
     gap: 15px;
     padding: 10px;
     pointer-events: none;
+}
+
+.product-list.grid-view .product-item {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.product-list.grid-view .product-image-container {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-list.grid-view .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.product-list.grid-view .title-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .meta-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .promotion-section {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background: #fff;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.product-list.grid-view .buy-button {
+    width: 100%;
+    margin-top: 8px;
 }
 
 .product-list.grid-view .product-item {
@@ -2288,13 +2450,15 @@
 }
 
 .product-title {
-    font-size: 1em;
-    line-height: 1.3;
-    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 4px;
     overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-height: 40px;
 }
 
 .product-subtitle {
@@ -2414,6 +2578,58 @@
     gap: 15px;
     padding: 10px;
     pointer-events: none;
+}
+
+.product-list.grid-view .product-item {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.product-list.grid-view .product-image-container {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-list.grid-view .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.product-list.grid-view .title-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .meta-section {
+    flex: 0 0 auto;
+}
+
+.product-list.grid-view .promotion-section {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background: #fff;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.product-list.grid-view .buy-button {
+    width: 100%;
+    margin-top: 8px;
 }
 
 .product-list.grid-view .product-item {
