@@ -97,17 +97,21 @@ function displayProducts(products) {
                     <div class="title-section">
                         <h2 class="product-title">${basicInfo.title}</h2>
                         <h3 class="product-subtitle">${basicInfo.short_title}</h3>
+                        <div class="category-info">
+                            <span class="category-tag">${basicInfo.category_name}</span>
+                            <span class="category-tag">${basicInfo.level_one_category_name}</span>
+                        </div>
                     </div>
                     <div class="meta-section">
                         <div class="shop-info">
+                            ${basicInfo.brand_name ? `<span class="brand-info prominent"><i class="icon-brand"></i>${basicInfo.brand_name}</span>` : `<span><i class="icon-brand"></i>无品牌</span>`}
                             <span><i class="icon-shop"></i>${basicInfo.shop_title}</span>
-                            <span><i class="icon-brand"></i>${basicInfo.brand_name || '无品牌'}</span>
                         </div>
                         <div class="shipping-sales-info">
                             <span><i class="icon-location"></i>${basicInfo.provcity}</span>
                             <span><i class="icon-shipping"></i>${basicInfo.real_post_fee === '0.00' ? '包邮' : `¥${basicInfo.real_post_fee}`}</span>
-                            <span>年销量: ${basicInfo.annual_vol || 0}</span>
-                            <span>月销量: ${basicInfo.volume || 0}</span>
+                            <span class="${Number(basicInfo.annual_vol) > 500 ? 'prominent' : ''}">年销量: ${basicInfo.annual_vol || 0}</span>
+                            <span class="${Number(basicInfo.volume) > 50 ? 'prominent' : ''}">月销量: ${basicInfo.volume || 0}</span>
                         </div>
                     </div>
                 </div>
@@ -226,9 +230,10 @@ function showProductDetail(product) {
                     ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
                         `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
                     ).join('') || ''}
-                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
-                        `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
+                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.more_promotion_map_data?.slice(0, 3).map(promo => 
+                        `<div class="more-promotion" title="${promo.promotion_title}: ${promo.promotion_desc}">${promo.promotion_title}: ${promo.promotion_desc}</div>`
                     ).join('') || ''}
+                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.length > 3 ? '<div class="more-promotion-ellipsis">...</div>' : ''}
                 </div>
                 <div class="promotion-tags">
                     ${priceInfo.promotion_tag_list?.promotion_tag_map_data?.map(tag => 
@@ -312,13 +317,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+// 添加页面加载动画
+function showLoading() {
+    const overlay = document.createElement('div');
+    overlay.className = 'loading-overlay';
+    overlay.innerHTML = '<div class="loading-spinner"></div>';
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.classList.add('active'), 0);
+    return overlay;
+}
+
+function hideLoading(overlay) {
+    overlay.classList.remove('active');
+    setTimeout(() => overlay.remove(), 300);
+}
+
+// 修改搜索商品函数，添加加载动画
+async function searchProducts(keyword) {
+    const loadingOverlay = showLoading();
+    try {
+        const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}`;
+        const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'origin': 'http://taobao.aigc.louyu.tech'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const products = data.tbk_dg_material_optional_upgrade_response.result_list.map_data;
+        displayProducts(products);
+    } catch (error) {
+        console.error('搜索失败:', error);
+        alert('搜索失败: ' + error.message);
+    } finally {
+        hideLoading(loadingOverlay);
+    }
+}
+
 // 添加鼠标拖拽红包效果
 document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.cursor');
     let isMouseDown = false;
     let lastMouseX = 0;
     let lastMouseY = 0;
-    let redPackets = [];
 
     function createRedPacket(x, y, velocityX, velocityY) {
         const redPacket = document.createElement('div');
