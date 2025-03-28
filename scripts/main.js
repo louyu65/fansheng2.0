@@ -537,7 +537,7 @@ async function searchProducts(keyword) {
         const includeGoodRate = document.getElementById('includeGoodRate')?.checked || false;
         const npxLevel = document.getElementById('npxLevel')?.value || '';
 
-        const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}&startPrice=${startPrice}&endPrice=${endPrice}&isTmall=${isTmall}&isOverseas=${isOverseas}&sort=${sort}&start_dsr=${startDsr}&has_coupon=${hasCoupon}&need_free_shipment=${needFreeShipment}&include_good_rate=${includeGoodRate}&npx_level=${npxLevel}`;
+        const url =`https://fanli.aigc.louyu.tech/querytaobaoproduct?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}&startPrice=${startPrice}&endPrice=${endPrice}&isTmall=${isTmall}&isOverseas=${isOverseas}&sort=${sort}&start_dsr=${startDsr}&has_coupon=${hasCoupon}&need_free_shipment=${needFreeShipment}&include_good_rate=${includeGoodRate}&npx_level=${npxLevel}`;
         
         const response = await fetch(url, {
             method: 'GET',
