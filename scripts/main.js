@@ -322,6 +322,7 @@ function displayProducts(products) {
                             <span class="discount-price">¥${priceInfo.zk_final_price}</span>
                             <span class="original-price">¥${priceInfo.reserve_price}</span>
                             ${priceInfo.final_promotion_price ? `<span class="promotion-price">促销价: ¥${priceInfo.final_promotion_price}</span>` : ''}
+                            ${priceInfo.predict_rounding_up_price ? `<span class="rounding-price">凑单价: ¥${priceInfo.predict_rounding_up_price}<span class="rounding-desc">${priceInfo.predict_rounding_up_price_desc}</span></span>` : ''}
                         </div>
                         <div class="promotion-info">
                             ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
@@ -419,6 +420,7 @@ function showProductDetail(product) {
                     <div class="price-item">原价: ¥${priceInfo.reserve_price}</div>
                     <div class="price-item">优惠价: ¥${priceInfo.zk_final_price}</div>
                     ${priceInfo.final_promotion_price ? `<div class="price-item">促销价: ¥${priceInfo.final_promotion_price}</div>` : ''}
+                    ${priceInfo.predict_rounding_up_price ? `<div class="price-item rounding-price">凑单价: ¥${priceInfo.predict_rounding_up_price}<span class="rounding-desc">${priceInfo.predict_rounding_up_price_desc}</span></div>` : ''}
                 </div>
                 <div class="detail-meta">
                 
