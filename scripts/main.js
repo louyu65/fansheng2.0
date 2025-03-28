@@ -14,9 +14,133 @@ async function getUserIp() {
     }
 }
 
+// 鼠标轨迹效果
+document.addEventListener('DOMContentLoaded', () => {
+    let lastX = 0;
+    let lastY = 0;
+    let lastTimestamp = 0;
+    
+    function createTrailDot(x, y, speed) {
+        const dot = document.createElement('div');
+        dot.className = 'trail-dot';
+        dot.style.left = x + 'px';
+        dot.style.top = y + 'px';
+        
+        // 根据速度调整大小和透明度
+        const scale = Math.max(0.4, Math.min(1.2, 1 - speed / 800));
+        const opacity = Math.max(0.4, Math.min(1, 1 - speed / 800));
+        
+        // 生成渐变色
+        const hue = (Date.now() / 20) % 360;
+        const saturation = Math.min(100, speed * 3 + 70);
+        const lightness = Math.max(50, Math.min(80, 100 - speed * 1.5));
+        
+        dot.style.transform = `scale(${scale}) rotate(${Math.random() * 360}deg)`;
+        dot.style.opacity = opacity;
+        dot.style.background = `linear-gradient(135deg, 
+            hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity}), 
+            hsla(${(hue + 45) % 360}, ${saturation - 10}%, ${lightness + 5}%, ${opacity * 0.7})`;
+        dot.style.boxShadow = `0 0 ${8 * scale}px rgba(255, 71, 87, ${opacity * 0.5})`;
+        
+        document.body.appendChild(dot);
+        
+        // 延长动画时间
+        requestAnimationFrame(() => {
+            dot.style.transform = `scale(${scale * 0.3}) rotate(${Math.random() * 720}deg)`;
+            dot.style.opacity = '0';
+        });
+        
+        // 延长消失时间
+        setTimeout(() => dot.remove(), 1200);
+    }
+    
+    document.addEventListener('mousemove', (e) => {
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastTimestamp;
+        
+        if (deltaTime > 0) {
+            const speed = Math.sqrt(
+                Math.pow(e.clientX - lastX, 2) + 
+                Math.pow(e.clientY - lastY, 2)
+            ) / deltaTime;
+            
+            // 根据速度调整轨迹点的生成
+            const minInterval = speed > 1 ? 8 : 16;
+            if (deltaTime > minInterval) {
+                createTrailDot(e.clientX, e.clientY, speed);
+            }
+        }
+        
+        lastX = e.clientX;
+        lastY = e.clientY;
+        lastTimestamp = currentTime;
+    });
+    
+    // 点击计数相关变量
+    let clickCount = 0;
+    let lastClickTime = 0;
+    const CLICK_RESET_TIME = 10000; // 10秒重置时间
+
+    document.addEventListener('mousedown', (e) => {
+        const currentTime = Date.now();
+        
+        // 检查是否需要重置计数
+        if (currentTime - lastClickTime > CLICK_RESET_TIME) {
+            clickCount = 0;
+        }
+        
+        // 更新点击信息
+        clickCount++;
+        lastClickTime = currentTime;
+        
+        // 创建点击数字效果
+        const numberElement = document.createElement('div');
+        numberElement.className = 'click-number';
+        numberElement.textContent = clickCount;
+        numberElement.style.left = e.clientX + 'px';
+        numberElement.style.top = e.clientY + 'px';
+        
+        // 生成更丰富的渐变色
+        const hue1 = Math.random() * 360;
+        const hue2 = (hue1 + 120) % 360;
+        const hue3 = (hue1 + 240) % 360;
+        const saturation = 80 + Math.random() * 20;
+        const lightness = 60 + Math.random() * 15;
+        numberElement.style.background = `linear-gradient(135deg, 
+            hsl(${hue1}, ${saturation}%, ${lightness}%), 
+            hsl(${hue2}, ${saturation - 10}%, ${lightness + 5}%),
+            hsl(${hue3}, ${saturation + 5}%, ${lightness - 5}%))`;        numberElement.style.webkitBackgroundClip = 'text';
+        numberElement.style.webkitTextFillColor = 'transparent';
+        numberElement.style.webkitBackgroundClip = 'text';
+        numberElement.style.webkitTextFillColor = 'transparent';
+        
+        // 生成更自然的上升动画参数
+        const force = 40 + Math.random() * 60; // 控制上升高度
+        const lateralForce = (Math.random() - 0.5) * 40; // 控制左右偏移
+        
+        // 设置初始状态和动画属性
+        numberElement.style.transform = 'translate(0, 0) scale(0.5)';
+        numberElement.style.opacity = '0.4';
+        numberElement.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        
+        // 添加到页面
+        document.body.appendChild(numberElement);
+        
+        // 触发动画，使用CSS变量实现上升消失效果
+        requestAnimationFrame(() => {
+            numberElement.style.setProperty('--offset-x', `${lateralForce}px`);
+            numberElement.style.setProperty('--offset-y', `${-force}px`);
+            numberElement.style.animation = 'numberFloat 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards';
+            numberElement.style.transform = `translate(${lateralForce}px, ${-force}px) scale(1.1)`;
+            numberElement.style.opacity = '0';
+        });
+        
+        // 移除元素
+        setTimeout(() => numberElement.remove(), 800);
+    });
+});
+
 // 搜索商品
-
-
 async function searchProducts(keyword) {
     try {
         const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}`;
@@ -46,16 +170,91 @@ async function searchProducts(keyword) {
 // 添加光标效果
 document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.cursor');
+    let lastX = 0;
+    let lastY = 0;
+    let lastTimestamp = 0;
+    
+    function createTrailDot(x, y, speed) {
+        const dot = document.createElement('div');
+        dot.className = 'trail-dot';
+        dot.style.left = x + 'px';
+        dot.style.top = y + 'px';
+        
+        // 根据速度调整大小和透明度
+        const scale = Math.max(0.3, Math.min(1, 1 - speed / 1000));
+        const opacity = Math.max(0.2, Math.min(0.8, 1 - speed / 1000));
+        
+        dot.style.transform = `scale(${scale})`;
+        dot.style.opacity = opacity;
+        
+        // 添加渐变色
+        const hue = (Date.now() / 30) % 360;
+        dot.style.backgroundColor = `hsla(${hue}, 80%, 60%, ${opacity})`;
+        
+        document.body.appendChild(dot);
+        
+        // 动画效果
+        setTimeout(() => {
+            dot.style.transform = `scale(0)`;
+            dot.style.opacity = '0';
+        }, 50);
+        
+        // 移除元素
+        setTimeout(() => dot.remove(), 1000);
+    }
     
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastTimestamp;
+        
+        if (deltaTime > 0) {
+            const speed = Math.sqrt(
+                Math.pow(e.clientX - lastX, 2) + 
+                Math.pow(e.clientY - lastY, 2)
+            ) / deltaTime;
+            
+            // 调整轨迹点的生成条件，降低速度阈值，减少时间间隔要求
+            if (speed > 0 && deltaTime > 16) {
+                createTrailDot(e.clientX, e.clientY, speed);
+            }
+            
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        }
+        
+        lastX = e.clientX;
+        lastY = e.clientY;
+        lastTimestamp = currentTime;
     });
-
-    document.addEventListener('mousedown', () => {
+    
+    document.addEventListener('mousedown', (e) => {
         cursor.style.transform = 'scale(0.8)';
+        
+        // 创建爆炸效果
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+            
+            // 随机运动方向
+            const angle = (i / 8) * Math.PI * 2;
+            const velocity = 2 + Math.random() * 2;
+            particle.style.transform = `translate(${Math.cos(angle) * 50}px, ${Math.sin(angle) * 50}px)`;
+            
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 800);
+        }
+        
+        // 创建红包效果
+        const redPacket = document.createElement('div');
+        redPacket.className = 'red-packet';
+        redPacket.style.left = e.clientX + 'px';
+        redPacket.style.top = e.clientY + 'px';
+        document.body.appendChild(redPacket);
+        setTimeout(() => redPacket.remove(), 500);
     });
-
+    
     document.addEventListener('mouseup', () => {
         cursor.style.transform = 'scale(1)';
     });
@@ -105,12 +304,14 @@ function displayProducts(products) {
                     <div class="meta-section">
                         <div class="shop-info">
                             ${basicInfo.brand_name ? `<span class="brand-info prominent"><i class="icon-brand"></i>${basicInfo.brand_name}</span>` : `<span><i class="icon-brand"></i>无品牌</span>`}
+                    
+                            <span class="seller-type ${basicInfo.user_type === 1 ? 'tmall' : basicInfo.user_type === 3 ? 'special' : 'taobao'}"><i class="icon-seller"></i>${basicInfo.user_type === 1 ? '天猫' : basicInfo.user_type === 3 ? '特价版' : '淘宝'}</span>
                             <span><i class="icon-shop"></i>${basicInfo.shop_title}</span>
                         </div>
                         <div class="shipping-sales-info">
                             <span><i class="icon-location"></i>${basicInfo.provcity}</span>
                             <span><i class="icon-shipping"></i>${basicInfo.real_post_fee === '0.00' ? '包邮' : `¥${basicInfo.real_post_fee}`}</span>
-                            <span class="${Number(basicInfo.annual_vol) > 500 ? 'prominent' : ''}">年销量: ${basicInfo.annual_vol || 0}</span>
+                            <span class="${Number(basicInfo.annual_vol) > 100 ? 'prominent' : ''}">年销量: ${basicInfo.annual_vol || 0}</span>
                             <span class="${Number(basicInfo.volume) > 50 ? 'prominent' : ''}">月销量: ${basicInfo.volume || 0}</span>
                         </div>
                     </div>
@@ -209,6 +410,7 @@ function showProductDetail(product) {
             <div class="detail-info">
                 <h2>${basicInfo.title}</h2>
                 <h3>${basicInfo.short_title}</h3>
+                <span class="seller-type ${basicInfo.user_type === 1 ? 'tmall' : basicInfo.user_type === 3 ? 'special' : 'taobao'}"><i class="icon-seller"></i>${basicInfo.user_type === 1 ? '天猫' : basicInfo.user_type === 3 ? '特价版' : '淘宝'}</span>
                 <div class="category-info">
                     <span class="category-tag">${basicInfo.category_name}</span>
                     <span class="category-tag">${basicInfo.level_one_category_name}</span>
@@ -219,6 +421,7 @@ function showProductDetail(product) {
                     ${priceInfo.final_promotion_price ? `<div class="price-item">促销价: ¥${priceInfo.final_promotion_price}</div>` : ''}
                 </div>
                 <div class="detail-meta">
+                
                     <div>店铺：${basicInfo.shop_title}</div>
                     <div>品牌：${basicInfo.brand_name || '无品牌'}</div>
                     <div>发货地：${basicInfo.provcity}</div>
@@ -229,9 +432,6 @@ function showProductDetail(product) {
                 <div class="promotion-info">
                     ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
                         `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
-                    ).join('') || ''}
-                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.more_promotion_map_data?.slice(0, 3).map(promo => 
-                        `<div class="more-promotion" title="${promo.promotion_title}: ${promo.promotion_desc}">${promo.promotion_title}: ${promo.promotion_desc}</div>`
                     ).join('') || ''}
                     ${priceInfo.more_promotion_list?.more_promotion_map_data?.length > 3 ? '<div class="more-promotion-ellipsis">...</div>' : ''}
                 </div>
@@ -336,7 +536,19 @@ function hideLoading(overlay) {
 async function searchProducts(keyword) {
     const loadingOverlay = showLoading();
     try {
-        const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}`;
+        // 获取筛选条件值
+        const startPrice = document.getElementById('startPrice').value || '0';
+        const endPrice = document.getElementById('endPrice').value || '100000';
+        const isTmall = document.getElementById('isTmall').checked;
+        const isOverseas = document.getElementById('isOverseas').checked;
+        const sort = document.getElementById('sortSelect').value;
+        const startDsr = document.getElementById('startDsr').value || '0';
+        const hasCoupon = document.getElementById('hasCoupon').checked;
+        const needFreeShipment = document.getElementById('needFreeShipment').checked;
+        const includeGoodRate = document.getElementById('includeGoodRate').checked;
+        const npxLevel = document.getElementById('npxLevel').value;
+
+        const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}&startPrice=${startPrice}&endPrice=${endPrice}&isTmall=${isTmall}&isOverseas=${isOverseas}&sort=${sort}&start_dsr=${startDsr}&has_coupon=${hasCoupon}&need_free_shipment=${needFreeShipment}&include_good_rate=${includeGoodRate}&npx_level=${npxLevel}`;
         const response = await fetch(url, {
             method: 'GET',
             mode: 'cors',
@@ -470,6 +682,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    const searchInput = document.getElementById('searchInput');
+
     // 添加翻页按钮事件
     prevButton.addEventListener('click', () => {
         if (currentPage > 1) {
@@ -490,3 +707,4 @@ document.addEventListener('DOMContentLoaded', () => {
             searchProducts(keyword);
         }
     });
+});

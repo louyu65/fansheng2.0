@@ -1,0 +1,85 @@
+/* 鼠标轨迹效果 */
+.cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 71, 87, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    transform-origin: center;
+    transition: transform 0.3s;
+    z-index: 9999;
+}
+
+/* 鼠标轨迹效果 */
+.trail-dot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    will-change: transform, opacity;
+    transition: all 1.2s ease-out;
+    box-shadow: 0 0 12px rgba(255, 71, 87, 0.6);
+}
+
+/* 点击爆炸效果 */
+.particle {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(45deg, #ffeb3b, #ff4757);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    box-shadow: 0 0 8px rgba(255, 235, 59, 0.6);
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0) translate(var(--tx), var(--ty));
+        opacity: 0;
+    }
+}
+
+/* 红包效果 */
+.red-packet {
+    position: fixed;
+    width: 30px;
+    height: 40px;
+    background: linear-gradient(45deg, #ff4757, #ff6b6b);
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 9998;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+    transform-origin: center;
+    animation: float 0.5s ease-out;
+}
+
+.red-packet::before {
+    content: '福';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffeb3b;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@keyframes float {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 0;
+    }
+}

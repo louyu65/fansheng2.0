@@ -5,14 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品搜索</title>
     <link rel="stylesheet" href="styles/main.css">
-</head>
-<body>
-    <div class="cursor"></div>
+    <link rel="stylesheet" href="styles/cursor.css">
+</head<body>
     <div class="container">
-        <h1 class="search-title">拒绝大数据杀熟，做一个聪明的有钱人</h1>
+        <h1 class="search-title">拒绝大数据杀熟，做一个睿智的富婆</h1>
         <div class="search-container">
             <input type="text" id="searchInput" value="应季水果" placeholder="请输入搜索关键词">
             <button id="searchButton">搜索</button>
+        </div>
+        <div class="filter-container">
+            <div class="filter-group">
+                <div class="price-range">
+                    <input type="number" id="startPrice" placeholder="最低价" min="0">
+                    <span>-</span>
+                    <input type="number" id="endPrice" placeholder="最高价" min="0">
+                </div>
+                <select id="sortSelect">
+                    <!-- <option value="tk_rate_des">佣金比例从高到低</option>
+                    <option value="tk_rate_asc">佣金比例从低到高</option> -->
+                    <option value="total_sales_des">销量从高到低</option>
+                    <option value="total_sales_asc">销量从低到高</option>
+                    <!-- <option value="tk_total_sales_des">推广量从高到低</option>
+                    <option value="tk_total_sales_asc">推广量从低到高</option>
+                    <option value="tk_total_commi_des">总佣金从高到低</option>
+                    <option value="tk_total_commi_asc">总佣金从低到高</option> -->
+                    <option value="final_promotion_price_des">价格从高到低</option>
+                    <option value="final_promotion_price_asc">价格从低到高</option>
+                </select>
+                <input type="number" id="startDsr" placeholder="最低店铺评分" min="0" max="50000">
+                <div class="filter-group">
+                    <select id="npxLevel">
+                        <option value="1">牛皮癣程度-不限</option>
+                        <option value="2">无牛皮癣</option>
+                        <option value="3">轻微牛皮癣</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label><input type="checkbox" id="isTmall"> 天猫商城</label>
+                <label><input type="checkbox" id="isOverseas"> 海外商品</label>
+                <label><input type="checkbox" id="hasCoupon"> 优惠券</label>
+                <label><input type="checkbox" id="needFreeShipment"> 包邮</label>
+                <label><input type="checkbox" id="includeGoodRate"> 好评率高于行业均值</label>
+            </div>
+           
         </div>
         
         <div class="view-toggle">
