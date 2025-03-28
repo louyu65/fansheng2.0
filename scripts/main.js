@@ -140,31 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 搜索商品
-async function searchProducts(keyword) {
-    try {
-        const url =`https://fanli.aigc.louyu.tech/querytaobaoproduct?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}`;
-        const response = await fetch(url, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'origin': 'http://taobao.aigc.louyu.tech'
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        const products = data.tbk_dg_material_optional_upgrade_response.result_list.map_data;
-        displayProducts(products);
-    } catch (error) {
-        console.error('搜索失败:', error);
-        alert('搜索失败: ' + error.message);
-    }
-}
 
 // 显示商品列表
 // 添加光标效果
