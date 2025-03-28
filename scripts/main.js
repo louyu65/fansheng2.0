@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 搜索商品
 async function searchProducts(keyword) {
     try {
-        const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}`;
+        const url =`https://fanli.aigc.louyu.tech/querytaobaoproduct?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}`;
         const response = await fetch(url, {
             method: 'GET',
             mode: 'cors',
@@ -169,7 +169,12 @@ async function searchProducts(keyword) {
 // 显示商品列表
 // 添加光标效果
 document.addEventListener('DOMContentLoaded', () => {
-    const cursor = document.querySelector('.cursor');
+    // 创建cursor元素
+    const cursorElement = document.createElement('div');
+    cursorElement.className = 'cursor';
+    document.body.appendChild(cursorElement);
+    
+    const cursor = cursorElement;
     let lastX = 0;
     let lastY = 0;
     let lastTimestamp = 0;
@@ -541,22 +546,24 @@ function hideLoading(overlay) {
 }
 
 // 修改搜索商品函数，添加加载动画
+// 删除第一个简单版本的 searchProducts 函数，保留并优化第二个完整版本
 async function searchProducts(keyword) {
     const loadingOverlay = showLoading();
     try {
-        // 获取筛选条件值
-        const startPrice = document.getElementById('startPrice').value || '0';
-        const endPrice = document.getElementById('endPrice').value || '100000';
-        const isTmall = document.getElementById('isTmall').checked;
-        const isOverseas = document.getElementById('isOverseas').checked;
-        const sort = document.getElementById('sortSelect').value;
-        const startDsr = document.getElementById('startDsr').value || '0';
-        const hasCoupon = document.getElementById('hasCoupon').checked;
-        const needFreeShipment = document.getElementById('needFreeShipment').checked;
-        const includeGoodRate = document.getElementById('includeGoodRate').checked;
-        const npxLevel = document.getElementById('npxLevel').value;
+        // 获取筛选条件值（如果页面上没有这些元素，使用默认值）
+        const startPrice = document.getElementById('startPrice')?.value || '0';
+        const endPrice = document.getElementById('endPrice')?.value || '100000';
+        const isTmall = document.getElementById('isTmall')?.checked || false;
+        const isOverseas = document.getElementById('isOverseas')?.checked || false;
+        const sort = document.getElementById('sortSelect')?.value || 'total_sales';
+        const startDsr = document.getElementById('startDsr')?.value || '0';
+        const hasCoupon = document.getElementById('hasCoupon')?.checked || false;
+        const needFreeShipment = document.getElementById('needFreeShipment')?.checked || false;
+        const includeGoodRate = document.getElementById('includeGoodRate')?.checked || false;
+        const npxLevel = document.getElementById('npxLevel')?.value || '';
 
         const url =`https://fanli.aigc.louyu.tech/?keyword=${encodeURIComponent(keyword)}&page_size=${pageSize}&page_no=${currentPage}&userIp=${userIp}&startPrice=${startPrice}&endPrice=${endPrice}&isTmall=${isTmall}&isOverseas=${isOverseas}&sort=${sort}&start_dsr=${startDsr}&has_coupon=${hasCoupon}&need_free_shipment=${needFreeShipment}&include_good_rate=${includeGoodRate}&npx_level=${npxLevel}`;
+        
         const response = await fetch(url, {
             method: 'GET',
             mode: 'cors',
