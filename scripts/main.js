@@ -86,53 +86,49 @@ function displayProducts(products) {
                         <div class="slider-dot ${index === 0 ? 'active' : ''}"></div>
                     `).join('')}
                 </div>
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${basicInfo.title}</h3>
-                <div class="category-info">
-                    <span class="category-tag">${basicInfo.category_name}</span>
-                </div>
-                <div class="product-price">
-                    <span class="original-price">¥${priceInfo.reserve_price}</span>
-                    <span class="discount-price">¥${priceInfo.zk_final_price}</span>
-                    ${priceInfo.final_promotion_price ? `<span class="promotion-price">促销价: ¥${priceInfo.final_promotion_price}</span>` : ''}
-                </div>
-                <div class="sales-info">
-                    <span class="sales-item">年销量: ${basicInfo.annual_vol || 0}</span>
-                    <span class="sales-item">30天销量: ${basicInfo.volume || 0}</span>
-                </div>
-                <div class="product-meta">
-                    <div class="shop-info">
-                        <div class="shop-title"><i class="icon-shop"></i>${basicInfo.shop_title}</div>
-                        <div class="brand-name ${basicInfo.brand_name ? 'has-brand' : 'no-brand'}"><i class="icon-brand"></i>${basicInfo.brand_name || '无品牌'}</div>
-                    </div>
-                    <div class="product-meta-item">
-                        <i class="icon-location"></i>
-                        <span>${basicInfo.provcity}</span>
-                    </div>
-                    <div class="product-meta-item">
-                        <i class="icon-shipping"></i>
-                        <span>您当前地区运费：${basicInfo.real_post_fee === '0.00' ? '包邮' : `¥${basicInfo.real_post_fee}`}</span>
-                    </div>
-                </div>
-                <div class="sales-info">
-                    <span class="sales-item ${basicInfo.annual_vol > 10000 ? 'high-sales' : 'low-sales'}">年销量: ${basicInfo.annual_vol || 0}</span>
-                    <span class="sales-item ${basicInfo.volume > 1000 ? 'high-sales' : 'low-sales'}">30天销量: ${basicInfo.volume || 0}</span>
-                </div>
-                <div class="promotion-info">
-                    ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
-                        `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
-                    ).join('') || ''}
-                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
-                        `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
-                    ).join('') || ''}
-                </div>
-                <div class="promotion-tags">
+                <div class="promotion-tags image-tags">
                     ${priceInfo.promotion_tag_list?.promotion_tag_map_data?.map(tag => 
                         `<span class="tag">${tag.tag_name}</span>`
                     ).join('') || ''}
                 </div>
-                <a href="${publishInfo.click_url}" target="_blank" class="buy-button">立即购买</a>
+            </div>
+            <div class="product-info">
+                <div class="basic-info">
+                    <div class="title-section">
+                        <h2 class="product-title">${basicInfo.title}</h2>
+                        <h3 class="product-subtitle">${basicInfo.short_title}</h3>
+                    </div>
+                    <div class="meta-section">
+                        <div class="shop-info">
+                            <span><i class="icon-shop"></i>${basicInfo.shop_title}</span>
+                            <span><i class="icon-brand"></i>${basicInfo.brand_name || '无品牌'}</span>
+                        </div>
+                        <div class="shipping-sales-info">
+                            <span><i class="icon-location"></i>${basicInfo.provcity}</span>
+                            <span><i class="icon-shipping"></i>${basicInfo.real_post_fee === '0.00' ? '包邮' : `¥${basicInfo.real_post_fee}`}</span>
+                            <span>年销量: ${basicInfo.annual_vol || 0}</span>
+                            <span>月销量: ${basicInfo.volume || 0}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="promotion-section">
+                    <div class="price-info">
+                        <div class="price-group">
+                            <span class="discount-price">¥${priceInfo.zk_final_price}</span>
+                            <span class="original-price">¥${priceInfo.reserve_price}</span>
+                            ${priceInfo.final_promotion_price ? `<span class="promotion-price">促销价: ¥${priceInfo.final_promotion_price}</span>` : ''}
+                        </div>
+                        <div class="promotion-info">
+                            ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
+                                `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
+                            ).join('') || ''}
+                            ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
+                                `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
+                            ).join('') || ''}
+                        </div>
+                    </div>
+                    <a href="${publishInfo.click_url}" target="_blank" class="buy-button">立即购买</a>
+                </div>
             </div>
         `;
 
@@ -208,8 +204,10 @@ function showProductDetail(product) {
             <img src="${basicInfo.pict_url}" alt="${basicInfo.title}" class="detail-image">
             <div class="detail-info">
                 <h2>${basicInfo.title}</h2>
+                <h3>${basicInfo.short_title}</h3>
                 <div class="category-info">
                     <span class="category-tag">${basicInfo.category_name}</span>
+                    <span class="category-tag">${basicInfo.level_one_category_name}</span>
                 </div>
                 <div class="detail-price">
                     <div class="price-item">原价: ¥${priceInfo.reserve_price}</div>
@@ -314,31 +312,113 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+// 添加鼠标拖拽红包效果
 document.addEventListener('DOMContentLoaded', () => {
-    // 创建红包特效
+    const cursor = document.querySelector('.cursor');
+    let isMouseDown = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let redPackets = [];
+
+    function createRedPacket(x, y, velocityX, velocityY) {
+        const redPacket = document.createElement('div');
+        redPacket.className = 'red-packet';
+        redPacket.style.left = x + 'px';
+        redPacket.style.top = y + 'px';
+        document.body.appendChild(redPacket);
+
+        let opacity = 1;
+        let scale = 1;
+        let rotation = Math.random() * 360;
+
+        function animate() {
+            if (opacity <= 0) {
+                redPacket.remove();
+                return;
+            }
+
+            velocityY += 0.5; // 重力
+            x += velocityX;
+            y += velocityY;
+            opacity -= 0.02;
+            scale -= 0.02;
+            rotation += 5;
+
+            redPacket.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
+            redPacket.style.opacity = opacity;
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+        setTimeout(() => {
+            explode(x, y);
+        }, 500);
+    }
+
+    function explode(x, y) {
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const velocity = 10;
+            const velocityX = Math.cos(angle) * velocity;
+            const velocityY = Math.sin(angle) * velocity;
+            createParticle(x, y, velocityX, velocityY);
+        }
+    }
+
+    function createParticle(x, y, velocityX, velocityY) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        document.body.appendChild(particle);
+
+        let opacity = 1;
+        let scale = 1;
+
+        function animate() {
+            if (opacity <= 0) {
+                particle.remove();
+                return;
+            }
+
+            velocityY += 0.2; // 重力
+            x += velocityX;
+            y += velocityY;
+            opacity -= 0.02;
+            scale -= 0.02;
+
+            particle.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+            particle.style.opacity = opacity;
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    }
+
     document.addEventListener('mousemove', (e) => {
-        const packet = document.createElement('div');
-        packet.className = 'red-packet';
-        packet.style.width = Math.random() * 20 + 10 + 'px';
-        packet.style.height = packet.style.width;
-        packet.style.left = e.clientX + 'px';
-        packet.style.top = e.clientY + 'px';
-        
-        // 设置随机移动方向和旋转角度
-        const moveX = (Math.random() - 0.5) * 100;
-        const moveY = Math.random() * 100 + 50;
-        const rotate = (Math.random() - 0.5) * 360;
-        
-        packet.style.setProperty('--moveX', moveX + 'px');
-        packet.style.setProperty('--moveY', moveY + 'px');
-        packet.style.setProperty('--rotate', rotate + 'deg');
-        
-        document.body.appendChild(packet);
-        
-        // 动画结束后移除元素
-        packet.addEventListener('animationend', () => {
-            packet.remove();
-        });
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+
+        if (isMouseDown) {
+            const velocityX = (e.clientX - lastMouseX) * 0.2;
+            const velocityY = (e.clientY - lastMouseY) * 0.2;
+            createRedPacket(e.clientX, e.clientY, velocityX, velocityY);
+        }
+
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+    });
+
+    document.addEventListener('mousedown', () => {
+        isMouseDown = true;
+        cursor.style.transform = 'scale(0.8)';
+    });
+
+    document.addEventListener('mouseup', () => {
+        isMouseDown = false;
+        cursor.style.transform = 'scale(1)';
     });
 });
 
