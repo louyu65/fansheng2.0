@@ -466,6 +466,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const listViewButton = document.getElementById('listView');
     const gridViewButton = document.getElementById('gridView');
 
+    // 获取搜索关键词并执行搜索
+    const keyword = searchInput.value;
+    if (keyword) {
+        searchProducts(keyword);
+    }
+
     // 添加搜索按钮点击事件
     searchButton.addEventListener('click', () => {
         const keyword = searchInput.value.trim();
