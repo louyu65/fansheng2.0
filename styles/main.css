@@ -443,6 +443,44 @@
     background: #ff2e42;
 }
 
+.empty-search-container {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.empty-search-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.empty-search-message h3 {
+    color: #333;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.empty-search-message p {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.empty-search-message ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #666;
+}
+
+.empty-search-message li {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -1265,6 +1303,44 @@
     background: #ff2e42;
 }
 
+.empty-search-container {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.empty-search-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.empty-search-message h3 {
+    color: #333;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.empty-search-message p {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.empty-search-message ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #666;
+}
+
+.empty-search-message li {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -2087,6 +2163,44 @@
     background: #ff2e42;
 }
 
+.empty-search-container {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.empty-search-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.empty-search-message h3 {
+    color: #333;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.empty-search-message p {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.empty-search-message ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #666;
+}
+
+.empty-search-message li {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -2905,6 +3019,44 @@
 
 .buy-button:hover {
     background: #ff2e42;
+}
+
+.empty-search-container {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.empty-search-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.empty-search-message h3 {
+    color: #333;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.empty-search-message p {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.empty-search-message ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #666;
+}
+
+.empty-search-message li {
+    margin: 8px 0;
+    font-size: 14px;
 }
 
 .modal {

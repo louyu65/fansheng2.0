@@ -245,6 +245,25 @@ function displayProducts(products) {
     const productList = document.getElementById('productList');
     productList.innerHTML = '';
 
+    if (!products || products.length === 0) {
+        productList.innerHTML = `
+            <div class="empty-search-container">
+                <span class="empty-search-icon">🔍</span>
+                <div class="empty-search-message">
+                    <h3>暂无搜索结果</h3>
+                    <p>我们没有找到符合条件的商品，您可以尝试：</p>
+                    <ul>
+                        <li>检查输入的关键词是否正确</li>
+                        <li>尝试使用其他关键词</li>
+                        <li>调整筛选条件</li>
+                        <li>输入正确的商品链接</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
     products.forEach(product => {
         const basicInfo = product.item_basic_info;
         const priceInfo = product.price_promotion_info;
@@ -553,11 +572,11 @@ async function searchProducts(keyword) {
         }
         
         const data = await response.json();
-        const products = data.tbk_dg_material_optional_upgrade_response.result_list.map_data;
+        const products = data?.tbk_dg_material_optional_upgrade_response?.result_list?.map_data || [];
         displayProducts(products);
     } catch (error) {
         console.error('搜索失败:', error);
-        alert('搜索失败: ' + error.message);
+        displayProducts([]);
     } finally {
         hideLoading(loadingOverlay);
     }
