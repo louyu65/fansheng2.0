@@ -316,6 +316,7 @@ function displayProducts(products) {
                     </div>
                 </div>
                 <div class="promotion-section">
+                  <div class="price-action-container">
                     <div class="price-info">
                         <div class="price-group">
                             <span class="discount-price">¥${priceInfo.zk_final_price}</span>
@@ -323,17 +324,21 @@ function displayProducts(products) {
                             ${priceInfo.final_promotion_price ? `<span class="promotion-price">促销价: ¥${priceInfo.final_promotion_price}</span>` : ''}
                             ${priceInfo.predict_rounding_up_price ? `<span class="rounding-price">凑单价: ¥${priceInfo.predict_rounding_up_price}<span class="rounding-desc">${priceInfo.predict_rounding_up_price_desc}</span></span>` : ''}
                         </div>
-                        <div class="promotion-info">
-                            ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
-                                `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
-                            ).join('') || ''}
-                            ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
-                                `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
-                            ).join('') || ''}
+                      
+                                <div class="promotion-info">
+                                    ${priceInfo.final_promotion_path_list?.final_promotion_path_map_data?.map(path => 
+                                        `<div class="promotion-path">${path.promotion_title}: ${path.promotion_desc}</div>`
+                                    ).join('') || ''}
+                                    ${priceInfo.more_promotion_list?.more_promotion_map_data?.map(promo => 
+                                        `<div class="more-promotion">${promo.promotion_title}: ${promo.promotion_desc}</div>`
+                                    ).join('') || ''}
+                                </div>
                         </div>
+                     <div class="action-buttons">
+                        <a href="${publishInfo.click_url}" target="_blank" class="buy-button" onclick="handleBuyButtonClick(event, '${publishInfo.click_url}')">复制链接</a>
+                        <a href="${publishInfo.click_url}" target="_blank"  class="buy-button">立即购买</a>
                     </div>
-                    <a href="${publishInfo.click_url}" target="_blank" class="buy-button" onclick="handleBuyButtonClick(event, '${publishInfo.click_url}')">复制链接</a>
-                    <a href="${publishInfo.click_url}" target="_blank"  class="buy-button">立即购买</a>
+                    </div>
                 </div>
             </div>
         `;

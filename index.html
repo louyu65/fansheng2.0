@@ -3,77 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品搜索</title>
+    <title>返省2.0 - 智能返利比价平台</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/cursor.css">
-</head<body>
-    <div class="container">
-        <h1 class="search-title">拒绝大数据杀熟，做一个睿智的富婆</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" value="应季水果" placeholder="请输入搜索关键词">
-            <button id="searchButton">搜索</button>
-        </div>
-        <div class="filter-container">
-            <div class="filter-group">
-                <div class="price-range">
-                    <input type="number" id="startPrice" placeholder="最低价" min="0">
-                    <span>-</span>
-                    <input type="number" id="endPrice" placeholder="最高价" min="0">
-                </div>
-                <select id="sortSelect">
-                    <!-- <option value="tk_rate_des">佣金比例从高到低</option>
-                    <option value="tk_rate_asc">佣金比例从低到高</option> -->
-                    <option value="total_sales_des">销量从高到低</option>
-                    <option value="total_sales_asc">销量从低到高</option>
-                    <!-- <option value="tk_total_sales_des">推广量从高到低</option>
-                    <option value="tk_total_sales_asc">推广量从低到高</option>
-                    <option value="tk_total_commi_des">总佣金从高到低</option>
-                    <option value="tk_total_commi_asc">总佣金从低到高</option> -->
-                    <option value="final_promotion_price_des">价格从高到低</option>
-                    <option value="final_promotion_price_asc">价格从低到高</option>
-                </select>
-                <input type="number" id="startDsr" placeholder="最低店铺评分" min="0" max="50000">
-                <div class="filter-group">
-                    <select id="npxLevel">
-                        <option value="1">牛皮癣程度-不限</option>
-                        <option value="2">无牛皮癣</option>
-                        <option value="3">轻微牛皮癣</option>
-                    </select>
-                </div>
-            </div>
-            <div class="filter-group">
-                <label><input type="checkbox" id="isTmall"> 天猫商城</label>
-                <label><input type="checkbox" id="isOverseas"> 海外商品</label>
-                <label><input type="checkbox" id="hasCoupon"> 优惠券</label>
-                <label><input type="checkbox" id="needFreeShipment"> 包邮</label>
-                <label><input type="checkbox" id="includeGoodRate"> 好评率高于行业均值</label>
-            </div>
-           
-        </div>
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
         
-        <div class="view-toggle">
-            <button id="listView" class="active">列表视图</button>
-            <button id="gridView">网格视图</button>
+        .hero-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .nav-section {
+            padding: 40px 20px;
+            background: #f8f9fa;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nav-item.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .recommendations {
+            padding: 40px 20px;
+        }
+        
+        .carousel {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .carousel-container {
+            display: flex;
+            gap: 20px;
+            overflow: hidden;
+        }
+        
+        .carousel-slide {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card {
+            flex: 0 0 calc(33.333% - 14px);
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #333;
+            z-index: 1;
+        }
+        
+        .carousel-button.prev {
+            left: -20px;
+        }
+        
+        .carousel-button.next {
+            right: -20px;
+        }
+        
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .ai-assistant:hover {
+            transform: scale(1.1);
+        }
+        
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-window.active {
+            display: flex;
+        }
+        
+        .chat-header {
+            padding: 15px;
+            background: #ff4757;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            padding: 8px 15px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <h1 class="hero-title">返省2.0</h1>
+        <p>智能返利比价平台，让您的每次购物都更划算</p>
+        <div class="hero-features">
+            <div class="feature-card">
+                <h3>极致搜索体验</h3>
+                <p>智能算法助力，快速找到心仪商品</p>
+            </div>
+            <div class="feature-card">
+                <h3>多平台比价</h3>
+                <p>一站式比较多平台价格，轻松找到最优惠</p>
+            </div>
+            <div class="feature-card">
+                <h3>智能返利</h3>
+                <p>自动计算最高返利，购物更省心</p>
+            </div>
         </div>
+    </section>
 
-        <div id="productList" class="product-list list-view">
-            <!-- 商品将通过 JavaScript 动态添加 -->
+    <section class="nav-section">
+        <div class="nav-grid">
+            <a href="pdd.html" class="nav-item">
+                <h3>拼多多商品查询</h3>
+                <p>海量优惠商品等你发现</p>
+            </a>
+            <a href="taobao.html" class="nav-item">
+                <h3>淘宝商品查询</h3>
+                <p>淘遍天下好物</p>
+            </a>
+            <div class="nav-item disabled">
+                <h3>京东商品查询</h3>
+                <p>敬请期待</p>
+            </div>
+            <div class="nav-item disabled">
+                <h3>唯品会商品查询</h3>
+                <p>敬请期待</p>
+            </div>
+            <div class="nav-item disabled">
+                <h3>商品综合搜索</h3>
+                <p>敬请期待</p>
+            </div>
         </div>
+    </section>
 
-        <div class="pagination">
-            <button id="prevPage">上一页</button>
-            <span id="currentPage">1</span>
-            <button id="nextPage">下一页</button>
+    <section class="recommendations">
+        <div class="carousel">
+            <button class="carousel-button prev">❮</button>
+            <div class="carousel-container">
+                <div class="carousel-slide"></div>
+            </div>
+            <button class="carousel-button next">❯</button>
+        </div>
+    </section>
+
+    <div class="ai-assistant" id="aiAssistant">🤖</div>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">返利专家</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" placeholder="请输入您的问题..." id="chatInput">
+            <button id="sendMessage">发送</button>
         </div>
     </div>
 
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="productDetail"></div>
-        </div>
-    </div>
+    <script>
+        // 商品推荐轮播功能
+        async function fetchRecommendations() {
+            try {
+                const response = await fetch('pdd_recommend.txt');
+                const data = await response.json();
+                return data.goods_basic_detail_response.list;
+            } catch (error) {
+                console.error('Error fetching recommendations:', error);
+                return [];
+            }
+        }
 
-    <script src="scripts/main.js"></script>
+        function createProductCard(product) {
+            return `
+                <div class="product-card">
+                    <img src="${product.goods_thumbnail_url}" alt="${product.goods_name}" style="width: 100%; height: 200px; object-fit: cover;">
+                    <div class="product-info" style="padding: 15px;">
+                        <h4 style="margin: 0 0 10px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                            ${product.goods_name}
+                        </h4>
+                        <div style="color: #ff4757; font-weight: bold; font-size: 16px;">¥${(product.min_group_price / 100).toFixed(2)}</div>
+                        <div style="color: #666; font-size: 12px; margin-top: 5px;">销量: ${product.sales_tip}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function initCarousel() {
+            const products = await fetchRecommendations();
+            const slide = document.querySelector('.carousel-slide');
+            const productsPerSlide = 3;
+            let currentIndex = 0;
+
+            function updateSlide() {
+                const visibleProducts = products.slice(currentIndex, currentIndex + productsPerSlide);
+                slide.innerHTML = visibleProducts.map(createProductCard).join('');
+            }
+
+            document.querySelector('.carousel-button.prev').addEventListener('click', () => {
+                currentIndex = Math.max(0, currentIndex - productsPerSlide);
+                updateSlide();
+            });
+
+            document.querySelector('.carousel-button.next').addEventListener('click', () => {
+                currentIndex = Math.min(products.length - productsPerSlide, currentIndex + productsPerSlide);
+                updateSlide();
+            });
+
+            updateSlide();
+        }
+
+        // AI助手功能
+        const aiAssistant = document.getElementById('aiAssistant');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessage = document.getElementById('sendMessage');
+
+        aiAssistant.addEventListener('click', () => {
+            chatWindow.classList.toggle('active');
+        });
+
+        async function handleUserMessage(message) {
+            // 添加用户消息到聊天窗口
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.style.textAlign = 'right';
+            userMessageDiv.style.margin = '10px 0';
+            userMessageDiv.innerHTML = `
+                <div style="background: #ff4757; color: white; padding: 8px 12px; border-radius: 15px 15px 0 15px; display: inline-block; max-width: 80%;">
+                    ${message}
+                </div>
+            `;
+            chatMessages.appendChild(userMessageDiv);
+
+            // TODO: 调用后端OpenAI接口
+            // 这里添加与后端API的交互逻辑
+        }
+
+        sendMessage.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                handleUserMessage(message);
+                chatInput.value = '';
+            }
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const message = chatInput.value.trim();
+                if (message) {
+                    handleUserMessage(message);
+                    chatInput.value = '';
+                }
+            }
+        });
+
+        // 初始化
+        initCarousel();
+    </script>
 </body>
 </html>

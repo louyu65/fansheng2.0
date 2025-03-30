@@ -286,6 +286,7 @@ async function searchProducts(keyword) {
         const isBrandGoods = document.getElementById('isBrandGoods')?.checked || false;
         const withCoupon = document.getElementById('withCoupon')?.checked || false;
         const merchantType = document.getElementById('merchantType')?.value || '';
+        const minSales = document.getElementById('minSales')?.value || '';
 
         // 构建价格范围参数
         let rangeList = [];
@@ -294,6 +295,13 @@ async function searchProducts(keyword) {
                 range_id: 0,
                 range_from: startPrice * 100,
                 range_to: endPrice * 100
+            });
+        }
+        if (minSales) {
+            rangeList.push({
+                range_id: 5,
+                range_from: minSales,
+            
             });
         }
 
