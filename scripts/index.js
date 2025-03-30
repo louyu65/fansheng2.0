@@ -30,8 +30,8 @@ function createProductCard(product) {
                 ${product.unified_tags?.map(tag => 
                     `<span class="tag" style="display: inline-block; padding: 2px 6px; margin-right: 4px; margin-bottom: 4px; background: #fff1f0; color: #ff4757; border-radius: 4px; font-size: 12px;">${tag}</span>`
                 ).join('') || ''}
-                ${product.activity_type && product.activity_type !== 0 ? `<span class="activity-tag" style="display: inline-block; padding: 2px 6px; margin-right: 4px; margin-bottom: 4px; background: #fff7e6; color: #ff9f43; border-radius: 4px; font-size: 12px;">${getActivityTypeName(product.activity_type)}</span>` : ''}
-                ${product.subsidy_goods_type ? `<span class="subsidy-tag" style="display: inline-block; padding: 2px 6px; margin-right: 4px; margin-bottom: 4px; background: #f0f5ff; color: #2d98da; border-radius: 4px; font-size: 12px;">${getSubsidyTypeName(product.subsidy_goods_type)}</span>` : ''}
+                ${product.activity_type && product.activity_type !== 0 && getActivityTypeName(product.activity_type) !== '无活动' ? `<span class="activity-tag" style="display: inline-block; padding: 2px 6px; margin-right: 4px; margin-bottom: 4px; background: #fff7e6; color: #ff9f43; border-radius: 4px; font-size: 12px;">${getActivityTypeName(product.activity_type)}</span>` : ''}
+                ${product.subsidy_goods_type && product.subsidy_goods_type !== 0 && getSubsidyTypeName(product.subsidy_goods_type) !== '无补贴' ? `<span class="subsidy-tag" style="display: inline-block; padding: 2px 6px; margin-right: 4px; margin-bottom: 4px; background: #f0f5ff; color: #2d98da; border-radius: 4px; font-size: 12px;">${getSubsidyTypeName(product.subsidy_goods_type)}</span>` : ''}
             </div>
             <h4 style="margin: 0 0 10px; font-size: 14px; height: 42px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                 ${product.goods_name}
