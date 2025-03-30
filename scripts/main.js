@@ -332,7 +332,8 @@ function displayProducts(products) {
                             ).join('') || ''}
                         </div>
                     </div>
-                    <a href="${publishInfo.click_url}" target="_blank" class="buy-button">立即购买</a>
+                    <a href="${publishInfo.click_url}" target="_blank" class="buy-button" onclick="handleBuyButtonClick(event, '${publishInfo.click_url}')">复制链接</a>
+                    <a href="${publishInfo.click_url}" target="_blank"  class="buy-button">立即购买</a>
                 </div>
             </div>
         `;
@@ -441,7 +442,9 @@ function showProductDetail(product) {
                         `<span class="tag">${tag.tag_name}</span>`
                     ).join('') || ''}
                 </div>
-                <a href="${publishInfo.click_url}" target="_blank" class="buy-button">立即购买</a>
+                
+                <a href="${publishInfo.click_url}" target="_blank" class="buy-button" onclick="handleBuyButtonClick(event, '${publishInfo.click_url}')">复制链接</a>
+                <a href="${publishInfo.click_url}" target="_blank"  class="buy-button">立即购买</a>    
             </div>
         </div>
         <div class="detail-gallery">
@@ -717,3 +720,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+async function handleBuyButtonClick(event, clickUrl) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+        await navigator.clipboard.writeText(clickUrl);
+        
+        // 创建提示框
+        const toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.textContent = '链接已复制';
+        document.body.appendChild(toast);
+
+        // 显示提示框
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
+
+        // 3秒后移除提示框
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 1200);
+
+        // 打开链接
+       // window.open(clickUrl, '_blank');
+    } catch (error) {
+        console.error('复制链接失败:', error);
+        alert('复制链接失败，请稍后重试');
+    }
+}

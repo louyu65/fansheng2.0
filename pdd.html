@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拼多多商品搜索</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/cursor.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="search-title">拼多多优惠商品搜索</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" value="应季水果" placeholder="请输入搜索关键词">
+            <button id="searchButton">搜索</button>
+        </div>
+        <div class="filter-container">
+            <div class="filter-group">
+                <div class="price-range">
+                    <input type="number" id="startPrice" placeholder="最低价" min="0">
+                    <span>-</span>
+                    <input type="number" id="endPrice" placeholder="最高价" min="0">
+                </div>
+                <select id="sortSelect">
+                    <option value="0">综合排序</option>
+                    <option value="6">销量从高到低</option>
+                    <option value="5">销量从低到高</option>
+                    <option value="4">价格从高到低</option>
+                    <option value="3">价格从低到高</option>
+                    <option value="2">佣金比例从高到低</option>
+                    <option value="1">佣金比例从低到高</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label><input type="checkbox" id="isBrandGoods"> 品牌商品</label>
+                <label><input type="checkbox" id="withCoupon"> 优惠券商品</label>
+                <select id="merchantType">
+                    <option value="">店铺类型-不限</option>
+                    <option value="3">旗舰店</option>
+                    <option value="4">专卖店</option>
+                    <option value="5">专营店</option>
+                    <option value="6">普通店</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="view-toggle">
+            <button id="listView" class="active">列表视图</button>
+            <button id="gridView">网格视图</button>
+        </div>
+
+        <div id="productList" class="product-list list-view">
+            <!-- 商品将通过 JavaScript 动态添加 -->
+        </div>
+
+        <div class="pagination">
+            <button id="prevPage">上一页</button>
+            <span id="currentPage">1</span>
+            <button id="nextPage">下一页</button>
+        </div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="productDetail"></div>
+        </div>
+    </div>
+
+    <script src="scripts/pdd.js"></script>
+</body>
+</html>
