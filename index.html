@@ -14,6 +14,40 @@
             padding: 25px 20px;
             text-align: center;
         }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 10px 5px;
+            }
+
+            .hero-title {
+                font-size: 1.2em;
+                margin-bottom: 5px;
+            }
+
+            .hero-features {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .feature-card {
+                width: 100%;
+                max-width: none;
+                padding: 6px;
+            }
+
+            .feature-card h3 {
+                font-size: 0.9em;
+                margin-bottom: 2px;
+            }
+
+            .feature-card p {
+                font-size: 0.8em;
+                margin: 0;
+            }
+        }
         
         .hero-title {
             font-size: 2em;
@@ -48,6 +82,18 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .nav-item {
+                padding: 15px;
+            }
+        }
         
         .nav-item {
             background: white;
@@ -78,6 +124,31 @@
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .carousel {
+                padding: 0 10px;
+            }
+
+            .product-card {
+                flex: 0 0 calc(100% - 20px);
+            }
+
+            .carousel-button {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+
+            .carousel-button.prev {
+                left: -15px;
+            }
+
+            .carousel-button.next {
+                right: -15px;
+            }
         }
         
         .carousel-container {
@@ -373,6 +444,24 @@
             height: 500px;
             background: white;
             border-radius: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .chat-window {
+                width: 90%;
+                height: 70vh;
+                right: 5%;
+                bottom: 80px;
+            }
+
+            .ai-assistant {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                right: 20px;
+                bottom: 20px;
+            }
+        }
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             display: none;
             flex-direction: column;
