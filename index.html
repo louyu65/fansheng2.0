@@ -15,20 +15,7 @@
             text-align: center;
         }
 
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 10px 5px;
-            }
-
-            .hero-title {
-                font-size: 1.2em;
-                margin-bottom: 5px;
-            }
-
-            .hero-features {
-                display: none;
-            }
-        }
+        
         
         .hero-title {
             font-size: 2em;
@@ -50,7 +37,21 @@
             flex: 1;
             max-width: 300px;
         }
-        
+        /*放在下面才能生效*/
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 10px 5px;
+            }
+
+            .hero-title {
+                font-size: 1.2em;
+                margin-bottom: 5px;
+            }
+
+            .hero-features {
+                display: none;
+            }
+        }
         .nav-section {
             padding: 40px 20px;
             background: #f8f9fa;
@@ -442,7 +443,7 @@
                 right: 20px;
                 bottom: 20px;
             }
-        }
+        
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             display: none;
             flex-direction: column;
